@@ -30,7 +30,7 @@ if 'end_date_default' not in locals():
 cows_df = pd.read_csv('cattle.csv')
 
 # Initialize Streamlit app
-st.title('Milk Production Tracker')
+st.title('Milk Production Tracking App')
 
 # Function to load the CSV file
 def load_data():
@@ -88,12 +88,15 @@ def get_overall_total_milk_produced():
     return 0
 
 # Create interactive widgets
-start_date, end_date = st.slider(
-    "Select Date Range",
-    min_value=date(2023, 1, 1),
-    max_value=date.today(),
-    value=(date(2023, 1, 1), date.today())
-)
+st.subheader('Filter by Date Range')
+#start_date, end_date = st.slider(
+#    "Select Date Range",
+#    min_value=date(2023, 1, 1),
+ #   max_value=date.today(),
+#    value=(date(2023, 1, 1), date.today())
+#)
+start_date, end_date = st.date_input('Select Date Range', value=[date(2023, 1, 1), date.today()])
+
 
 # Filter the DataFrame based on the selected date range
 if start_date and end_date:
@@ -164,7 +167,7 @@ with col5:
         st.markdown(f"""
             <div style="border: 2px solid #e44b8d; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
                 <h4>Highest Noon Producer</h4>
-                <p style='color: #e69b00'>{highest_noon_producer if highest_noon_producer else 'N/A'} : {highest_noon_production:.2f} L</p>
+                <p style='color: #e44b8d'>{highest_noon_producer if highest_noon_producer else 'N/A'} : {highest_noon_production:.2f} L</p>
             </div>
         """, unsafe_allow_html=True)
     except TypeError as e:
@@ -174,7 +177,7 @@ with col6:
         st.markdown(f"""
             <div style="border: 2px solid #e44b8d; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
                 <h4>Highest Evening Producer</h4>
-                <p style='color: #3b8132'>{highest_evening_producer if highest_evening_producer else 'N/A'} : {highest_evening_production:.2f} L</p>
+                <p style='color: #e44b8d'>{highest_evening_producer if highest_evening_producer else 'N/A'} : {highest_evening_production:.2f} L</p>
             </div>
         """, unsafe_allow_html=True)
     except TypeError as e:
@@ -186,7 +189,7 @@ with col7:
         st.markdown(f"""
             <div style="border: 2px solid #e44b8d; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
                 <h4>Total Morning Production</h4>
-                <p style='color: #e44b8d'>{total_morning:.2f} L</p>
+                <p style='color: #e69b00'>{total_morning:.2f} L</p>
             </div>
         """, unsafe_allow_html=True)
     except TypeError as e:
@@ -206,24 +209,28 @@ with col9:
         st.markdown(f"""
             <div style="border: 2px solid #e44b8d; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
                 <h4>Total Evening Production</h4>
-                <p style='color: #3b8132'>{total_evening:.2f} L</p>
+                <p style='color: #e69b00'>{total_evening:.2f} L</p>
             </div>
         """, unsafe_allow_html=True)
     except TypeError as e:
         st.error(f"Error in displaying total evening production: {e}")
 
 # Search and Filter
-st.header("Search and Filter")
+st.subheader("Search and Filter")
 search_term = st.text_input("Search by Cow Name")
 filtered_data = filtered_data[filtered_data['Cow Name'].str.contains(search_term, case=False, na=False)]
 
 # Create interactive widgets
+
 if st.session_state.user_role in ['Manager', 'Admin']:
+    st.subheader("Select Milk Record To Update")
     selected_index = st.selectbox(
-        'Select Record to Edit/Delete',
+        'Select Record to Edit',
         options=[None] + list(filtered_data.index),
         format_func=lambda x: 'No selection' if x is None else x
     )
+
+st.subheader('Input Milk Production')
 input_date = st.date_input('Input Date', value=date.today())
 cow_name_input = st.selectbox('Cow Name', cows_df['Name'])
 production_time = st.selectbox('Select Production Time', ['Morning', 'Noon', 'Evening'])
@@ -324,8 +331,11 @@ if st.session_state.user_role in ['Admin']:
     if delete_button:
         delete_record()
 
-# Display the DataFrame 
+
+# Display the DataFrame
+st.subheader('Milk Production Records') 
 update_table(filtered_data)
+
 
 # Calculate totals for Morning, Noon, and Evening production
 total_morning = filtered_data['Morning'].sum()
@@ -338,13 +348,20 @@ production_totals = pd.DataFrame({
     'Total': [total_morning, total_noon, total_evening]
 })
 
-st.write("### Milk Production Distribution")
+# Header for Milk Production Distribution
+st.header("Milk Production Distribution")
+
+# Pie chart for production distribution
 fig = px.pie(production_totals, values='Total', names='Production Time', title='Production Distribution')
 st.plotly_chart(fig, use_container_width=True)
 
-# Create bar chart for total milk production over time
-st.bar_chart(filtered_data.set_index('Date')['Total'])
+# Bar chart for total milk production over time
+st.header('Total Milk Production Over Time')
+fig = px.bar(filtered_data, x='Date', y='Total', title='Total Milk Production Over Time')
+st.plotly_chart(fig, use_container_width=True)
 
-# Create line chart for milk production over time for each cow
-line_chart_data = filtered_data.pivot(index='Date', columns='Cow Name', values='Total')
-st.line_chart(line_chart_data)
+# Line chart for milk production over time for each cow
+st.header('Milk Production Over Time for Each Cow')
+line_chart_data = filtered_data.pivot(index='Date', columns='Cow Name', values='Total').reset_index()
+fig = px.line(line_chart_data, x='Date', y=line_chart_data.columns[1:], title='Milk Production Over Time for Each Cow')
+st.plotly_chart(fig, use_container_width=True)

@@ -1,1 +1,5 @@
-Date,Customer,Quantity (Liters),Price per Liter (Ksh),Total (Ksh)
+Date,Customer Name,Quantity (Liters),Price per Liter (Ksh),Total (Ksh),Payment Ref,Status,created_at,updated_at
+2024-09-08,Emmanuel Keter,20.0,50,1000.0,QWERTYUI89W,Paid,2024-09-08 23:08:08,2024-09-08 23:08:08
+2024-09-08,Esther Kairuki,20.0,60,1200.0,AWERT67WU8,Paid,2024-09-08 23:08:55,2024-09-08 23:08:55
+2024-09-06,Esther Kairuki,10.0,60,600.0,,Not Cleared,2024-09-08 23:09:47,2024-09-08 23:09:47
+2024-09-06,Emmanuel Keter,30.0,50,1500.0,,Not Cleared,2024-09-08 23:10:13,2024-09-08 23:10:13
