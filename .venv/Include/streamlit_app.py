@@ -20,7 +20,6 @@ if 'users' not in st.session_state:
         except pd.errors.EmptyDataError:
             st.session_state.users = []
 
-
 # Auto-refresh every 60 seconds
 count = st_autorefresh(interval=60000, limit=100, key="refresh")
 
@@ -35,9 +34,31 @@ if st.session_state.logged_in:
         st.session_state.page = None
         st.success('Logged out due to inactivity')
 else:
-        st.session_state.last_active = count
+    st.session_state.last_active = count
 
 # --- PAGE SETUP ---
+signup_page=st.Page(
+    "form/signup.py",
+)
+login_page=st.Page(
+    "form/login.py",
+)
+home_page = st.Page(
+    "views/home.py",
+    title="Home",
+    icon=":material/home:",
+    default=True,
+)
+about_page = st.Page(
+    "views/about.py",
+    title="About Us",
+    icon=":material/digital_wellbeing:",
+)
+contact_page = st.Page(
+    "views/contact.py",
+    title="Contact Us",
+    icon=":material/contact_phone:",
+)
 milk_page = st.Page(
     "views/milk.py",
     title="Milk Production Tracker",
@@ -79,30 +100,26 @@ correlation_page = st.Page(
     title="Correlation Analysis",
     icon=":material/monitoring:",
 )
-feed_page=st.Page(
+feed_page = st.Page(
     "views/feed.py",
     title="Feed",
     icon=":material/agriculture:",
 )
-
 feedprod_page = st.Page(
     "views/feedprod.py",
     title="Feeds Production Tracker",
     icon=":material/agriculture:",
 )
-
 health_page = st.Page(
     "views/health.py",
     title="Cattle Health Monitoring",
     icon=":material/heart_plus:",
 )
-
 finance_page = st.Page(
     "views/finance.py",
     title="Finance",
     icon=":material/trending_up:",
 )
-
 analysis_page = st.Page(
     "views/analysis.py",
     title="Economic Analysis",
@@ -112,18 +129,9 @@ analysis_page = st.Page(
 # --- NAVIGATION SETUP [WITH SECTIONS]---
 pg = st.navigation(
     {
-        "Home": [],
-        "About Us": [],
-        "Contact Us": [],
-    
-        "Miginon Dairy Farm Management App": [dashboard_page],
-        "Farm Operations": [correlation_page],
-        "Milk Management": [milk_page,sales_page],
-        "Feed Management": [feed_page,feedprod_page],
-        "Cattle Management": [cattle_page,health_page],
-        "Farm Management": [workers_page, inventory_page],
-        "Finance Management": [finance_page, analysis_page],
-        "Settings": [settings_page],
+        "Discover": [home_page],
+        "About Us": [about_page],
+        "Contact Us": [contact_page],    
     }
 )
 
@@ -131,21 +139,37 @@ pg = st.navigation(
 current_dir = os.path.dirname(os.path.abspath(__file__))
 image_path = os.path.join(current_dir, 'assets', 'logo.png')
 image_path_2 = os.path.join(current_dir, 'assets', 'logo.png')
-st.logo(image_path)  
-#st.image(image_path_2, width=100)# Adjust the width as needed
-st.sidebar.markdown("Made with Prescision")
+st.logo(image_path)
+# st.image(image_path_2, width=100)  # Adjust the width as needed
+st.sidebar.markdown("Uwezo wa Kitaalamu")
 
 # --- LOGIN/LOGOUT ---
 if not st.session_state.logged_in:
     if st.session_state.page == 'Signup':
         signup()
+    if st.session_state.page == 'Login':
+        login()    
     else:
-        login()
+        if st.sidebar.button('Login', key='login_button'):
+            st.session_state.page = 'Login'
+            st.rerun()  # Force a rerun of the script
         if st.sidebar.button('Create an Account', key='create_account_button'):
             st.session_state.page = 'Signup'
             st.rerun()  # Force a rerun of the script
+
 else:
     st.sidebar.button('Logout', on_click=logout)
     # --- RUN NAVIGATION ---
-    if st.session_state.page == 'Milk Production Tracker':
-        pg.run()
+    pg = st.navigation(
+        {
+            "Miginon Dairy Farm Management App": [dashboard_page],
+            "Farm Operations": [correlation_page],
+            "Milk Management": [milk_page, sales_page],
+            "Feed Management": [feed_page, feedprod_page],
+            "Cattle Management": [cattle_page, health_page],
+            "Farm Management": [workers_page, inventory_page],
+            "Finance Management": [finance_page, analysis_page],
+            "Settings": [settings_page],
+        }
+    )
+    pg.run()

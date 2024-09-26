@@ -36,11 +36,11 @@ def login():
             st.session_state.user_role = role  # Set the user_role to the role
             st.session_state.logged_in = True
             st.session_state.page = 'Milk Production Tracker'
-            st.success(f'Logged in as {role}')
+            st.success(f'Logged in as {username}')
             st.rerun()  # Force a rerun of the script
         else:
             st.error('Invalid username, password, or role')
-
+    
 def logout():
     st.session_state.logged_in = False
     st.session_state.user_role = None
