@@ -79,10 +79,15 @@ correlation_page = st.Page(
     title="Correlation Analysis",
     icon=":material/monitoring:",
 )
-
-feed_page = st.Page(
+feed_page=st.Page(
     "views/feed.py",
-    title="Feed Management",
+    title="Feed",
+    icon=":material/agriculture:",
+)
+
+feedprod_page = st.Page(
+    "views/feedprod.py",
+    title="Feeds Production Tracker",
     icon=":material/agriculture:",
 )
 
@@ -103,13 +108,18 @@ analysis_page = st.Page(
     title="Economic Analysis",
     icon=":material/analytics:",
 )
+
 # --- NAVIGATION SETUP [WITH SECTIONS]---
 pg = st.navigation(
     {
+        "Home": [],
+        "About Us": [],
+        "Contact Us": [],
+    
         "Miginon Dairy Farm Management App": [dashboard_page],
         "Farm Operations": [correlation_page],
         "Milk Management": [milk_page,sales_page],
-        "Feed Management": [feed_page],
+        "Feed Management": [feed_page,feedprod_page],
         "Cattle Management": [cattle_page,health_page],
         "Farm Management": [workers_page, inventory_page],
         "Finance Management": [finance_page, analysis_page],
