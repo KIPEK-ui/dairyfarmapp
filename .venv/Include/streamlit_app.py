@@ -47,17 +47,17 @@ milk_page = st.Page(
 sales_page = st.Page(
     "views/sales.py",
     title="Sales Dashboard",
-    icon=":material/bar_chart:",
+    icon=":material/receipt_long:",
 )
 inventory_page = st.Page(
     "views/inventory.py",
     title="Inventory",
-    icon=":material/smart_toy:",
+    icon=":material/store:",
 )
 workers_page = st.Page(
     "views/workers.py",
     title="Workers",
-    icon=":material/person:",
+    icon=":material/person_add:",
 )
 cattle_page = st.Page(
     "views/cattle.py",
@@ -67,14 +67,52 @@ cattle_page = st.Page(
 settings_page = st.Page(
     "form/settings.py",
     title="Settings",
-    icon=":material/settings:",
+    icon=":material/manage_accounts:",
+)
+dashboard_page = st.Page(
+    "views/dashboard.py",
+    title="Dashboard",
+    icon=":material/menu:",
+)
+correlation_page = st.Page(
+    "views/correlation.py",
+    title="Correlation Analysis",
+    icon=":material/monitoring:",
 )
 
+feed_page = st.Page(
+    "views/feed.py",
+    title="Feed Management",
+    icon=":material/agriculture:",
+)
+
+health_page = st.Page(
+    "views/health.py",
+    title="Cattle Health Monitoring",
+    icon=":material/heart_plus:",
+)
+
+finance_page = st.Page(
+    "views/finance.py",
+    title="Finance",
+    icon=":material/trending_up:",
+)
+
+analysis_page = st.Page(
+    "views/analysis.py",
+    title="Economic Analysis",
+    icon=":material/analytics:",
+)
 # --- NAVIGATION SETUP [WITH SECTIONS]---
 pg = st.navigation(
     {
-        "Milk": [milk_page],
-        "Admin": [sales_page, inventory_page, workers_page, cattle_page],
+        "Miginon Dairy Farm Management App": [dashboard_page],
+        "Farm Operations": [correlation_page],
+        "Milk Management": [milk_page,sales_page],
+        "Feed Management": [feed_page],
+        "Cattle Management": [cattle_page,health_page],
+        "Farm Management": [workers_page, inventory_page],
+        "Finance Management": [finance_page, analysis_page],
         "Settings": [settings_page],
     }
 )
