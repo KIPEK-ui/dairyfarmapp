@@ -1,18 +1,2 @@
-ID,Name,Breed,Age,Status,DoB,DoA
-3649/01,Nancy,Freshian,7,Milking,2017-01-01,2017-01-01
-0707/001,Kabianga,Aryshire,9,Milking,2015-02-06,2015-02-06
-784,Githunguri,Freshian,8,Milking,2016-07-05,2016-07-05
-,Eliza,Aryshire,8,Milking,2016-06-04,2016-06-04
-,Merry,Freshian,5,Milking,2018-12-24,2018-12-24
-,Meg,Freshian,3,Milking,2021-01-31,2021-01-31
-,Daniella,Freshian,3,Milking,2021-01-08,2021-01-08
-,Rose,Freshian,9,Milking,2015-07-15,2015-07-15
-,Smart,Freshian,6,Milking,2017-11-17,2017-11-17
-2101,,Freshian,3,Milking,2021-02-01,2021-02-01
-,Debrah,Jersey,4,Milking,2020-08-07,2020-08-07
-2113,,Freshian,4,Milking,2020-04-24,2020-04-24
-,Abby,Freshian,4,Milking,2020-02-08,2020-02-08
-,Jasmine,Freshian,9,Milking,2015-06-11,2015-06-11
-,Chepchep,Flekviev,5,Milking,2019-07-26,2019-07-26
-2108,,Aryshire,4,Milking,2020-03-13,2020-03-13
-,Holland,Aryshire,9,Milking,2014-11-11,2014-11-11
+Cow ID,Name,Breed,DoB,DoA,Age
+1232,Kabianga,Freshian,2015-10-04,2019-08-06,
